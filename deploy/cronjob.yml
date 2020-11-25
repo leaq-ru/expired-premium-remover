@@ -1,0 +1,57 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: expired-premium-remover
+  labels:
+    app: expired-premium-remover
+spec:
+  concurrencyPolicy: Forbid
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    metadata:
+      labels:
+        app: expired-premium-remover
+      annotations:
+        linkerd.io/inject: enabled
+        config.linkerd.io/proxy-cpu-request: 1m
+        config.linkerd.io/proxy-memory-request: 10Mi
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: ghcr
+          containers:
+            - name: expired-premium-remover
+              image: busybox
+              command:
+                - /app/servicebin
+              lifecycle:
+                preStop:
+                  exec:
+                    command:
+                      - sleep
+                      - 5s
+              livenessProbe:
+                httpGet:
+                  path: /healthz
+                  port: 80
+              readinessProbe:
+                httpGet:
+                  path: /healthz
+                  port: 80
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 10Mi
+                limits:
+                  cpu: "1"
+                  memory: 1Gi
+              env:
+                - name: SERVICE_PARSER
+                  valueFrom:
+                    configMapKeyRef:
+                      key: parser
+                      name: service
+                - name: LOGLEVEL
+                  value: error
