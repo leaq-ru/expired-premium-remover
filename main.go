@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
-	"github.com/nnqq/scr-expired-premium-remover/call"
-	"github.com/nnqq/scr-expired-premium-remover/config"
-	"github.com/nnqq/scr-expired-premium-remover/healthz"
-	"github.com/nnqq/scr-expired-premium-remover/logger"
-	"github.com/nnqq/scr-expired-premium-remover/remover"
+	"github.com/leaq-ru/expired-premium-remover/call"
+	"github.com/leaq-ru/expired-premium-remover/config"
+	"github.com/leaq-ru/expired-premium-remover/healthz"
+	"github.com/leaq-ru/expired-premium-remover/logger"
+	"github.com/leaq-ru/expired-premium-remover/remover"
 	"log"
 	"time"
 )

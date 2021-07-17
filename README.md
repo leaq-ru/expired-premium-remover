@@ -1,1 +1,3 @@
-# scr-expired-premium-remover
+# expired-premium-remover
+
+https://github.com/leaq-ru/about
